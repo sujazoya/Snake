@@ -10,19 +10,22 @@ public class MusicManager : MonoBehaviour
 	public static string currentMusicKey;	
 	public AudioClip[] music;					// list of available music tracks
     private AudioSource musicAudio;				// AudioSource component for playing music
-    [SerializeField] Button[] musicButton;	
+    //[SerializeField] Button[] musicButton;	
 	public static MusicManager musicManager;
 	[SerializeField] GameObject[] offGameobject;
 	[Header("Sounds")]
 	public string soundKey;
 	public static string currentSoundKey;
 	public AudioClip[] sounds;                  // list of available sound clips
-	[SerializeField] Button[] soundButton;
+	//[SerializeField] Button[] soundButton;
 	[SerializeField] GameObject[] soundOffGameobject;
+	[SerializeField] GameObject[] vibratOeffbject;
 	public static AudioSource sfxAudio;               // AudioSource component for playing sound fx.
-
+	GameMaster uIManager;
+	public static string  vibrateKey="vibrate";
 	void Awake()
     {
+		uIManager = GetComponent<GameMaster>();
 		currentMusicKey = musicKey;
 		currentSoundKey = soundKey;
 		if (musicManager != null)
@@ -41,14 +44,21 @@ public class MusicManager : MonoBehaviour
 
 		musicAudio.playOnAwake = false;
 		musicAudio.loop = true;
-        if (musicButton.Length > 0)
+        if (uIManager.gameButtons.musicButtons.Length > 0)
         {
-            for (int i = 0; i < musicButton.Length; i++)
+            for (int i = 0; i < uIManager.gameButtons.musicButtons.Length; i++)
             {
-				musicButton[i].onClick.AddListener(ToggleMusic);
+				uIManager.gameButtons.musicButtons[i].onClick.AddListener(ToggleMusic);
 			}
         }
-        if (offGameobject.Length > 0)
+		if (uIManager.gameButtons.vibrateButtons.Length > 0)
+		{
+			for (int i = 0; i < uIManager.gameButtons.vibrateButtons.Length; i++)
+			{
+				uIManager.gameButtons.vibrateButtons[i].onClick.AddListener(ToggleVibrate);
+			}
+		}
+		if (offGameobject.Length > 0)
         {
 			if (!PlayerPrefs.HasKey(musicKey))
 			{				
@@ -66,11 +76,11 @@ public class MusicManager : MonoBehaviour
 				}				
 			}
 		}
-		if (soundButton.Length > 0)
+		if (uIManager.gameButtons.soundButtons.Length > 0)
 		{
-			for (int i = 0; i < soundButton.Length; i++)
+			for (int i = 0; i < uIManager.gameButtons.soundButtons.Length; i++)
 			{
-				soundButton[i].onClick.AddListener(ToggleSound);
+				uIManager.gameButtons.soundButtons[i].onClick.AddListener(ToggleSound);
 			}
 		}
 		if (soundOffGameobject.Length > 0)
@@ -91,38 +101,7 @@ public class MusicManager : MonoBehaviour
 				}
 			}
 		}
-	}
-	public void ToggleMusic(AudioSource musicName)
-	{
-		if (!PlayerPrefs.HasKey(musicKey))
-		{
-			PlayerPrefs.SetString(musicKey, musicKey);
-			currentMusicKey = musicKey;
-			musicName.Stop();
-            if (offGameobject.Length > 0)
-            {
-                for (int i = 0; i < offGameobject.Length; i++)
-                {
-					offGameobject[i].SetActive(true);
-
-				}
-            }
-
-        }
-        else
-        {
-			PlayerPrefs.DeleteKey(musicKey);
-			currentMusicKey = string.Empty;
-			musicName.Play();
-			if (offGameobject.Length > 0)
-			{
-				for (int i = 0; i < offGameobject.Length; i++)
-				{
-					offGameobject[i].SetActive(false);
-				}
-			}
-		}
-	}
+	}	
 	void ToggleMusic()
     {
 		if (!PlayerPrefs.HasKey(musicKey))
@@ -150,6 +129,42 @@ public class MusicManager : MonoBehaviour
 				for (int i = 0; i < offGameobject.Length; i++)
 				{
 					offGameobject[i].SetActive(false);
+				}
+			}
+		}
+	}
+	public static void Vibrate()
+    {
+        if (Application.isMobilePlatform&& !PlayerPrefs.HasKey(vibrateKey))
+        {          
+			Handheld.Vibrate();
+		}
+    }
+	void ToggleVibrate()
+	{
+		if (!PlayerPrefs.HasKey(vibrateKey))
+		{
+			PlayerPrefs.SetString(vibrateKey, vibrateKey);
+			
+			if (soundOffGameobject.Length > 0)
+			{
+				for (int i = 0; i < vibratOeffbject.Length; i++)
+				{
+					vibratOeffbject[i].SetActive(true);
+
+				}
+			}
+
+		}
+		else
+		{
+			PlayerPrefs.DeleteKey(vibrateKey);			
+			//sfxAudio.Play();
+			if (vibratOeffbject.Length > 0)
+			{
+				for (int i = 0; i < vibratOeffbject.Length; i++)
+				{
+					vibratOeffbject[i].SetActive(false);
 				}
 			}
 		}

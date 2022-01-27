@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 6332043099486662747}
   - component: {fileID: 6332043099486662746}
   - component: {fileID: 6332043099486662745}
-  m_Layer: 0
+  - component: {fileID: 7643459953306083172}
+  - component: {fileID: 580385290967692848}
+  m_Layer: 16
   m_Name: green
   m_TagString: food
   m_Icon: {fileID: 0}
@@ -93,3 +95,34 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &7643459953306083172
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6332043099486662744}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3801fd88debae3b48abfa84a5df9e454, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &580385290967692848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6332043099486662744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e1121bd2335a64aad4761194c055c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

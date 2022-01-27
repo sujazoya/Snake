@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SnakeMovement : MonoBehaviour
 {
-    [SerializeField] List<Transform> BodyParts = new List<Transform>();
+    public List<Transform> BodyParts = new List<Transform>();
     [SerializeField] float minDistance = 0.25f;
     [SerializeField] float speed = 1;
     [SerializeField] float rotationSpeed = 50;
@@ -14,11 +14,48 @@ public class SnakeMovement : MonoBehaviour
      Transform curBodyPart;
     private Transform prevBodyPart;
 
-    int beginSize = 15;
+    int beginSize = 3;
      string hor = "Horizontal";
     float rotDirection;
     float time;
     float randomCall;
+    float maxSpeed = 5;
+    public enum MobileInputMode
+    {
+        Touch,
+        Accelerometer
+    }
+    [Header("Mobile Options")]
+    [Tooltip("What input method to use on mobile devices")]
+    public MobileInputMode inputMode = MobileInputMode.Accelerometer;
+    [Range(1.0f, 10.0f)]
+    public float accelerometerSensitivity = 4.0f;
+    public static int InputSetup
+    {
+        get { return PlayerPrefs.GetInt("InputSetup", 0); }
+        set { PlayerPrefs.SetInt("InputSetup", value); }
+    }
+    private float GetSteerInput()
+    {
+        if (!Application.isMobilePlatform)
+        {
+            // Get GamePad/Keyboard input.
+            return Input.GetAxis("Horizontal");
+        }
+        else if (inputMode == MobileInputMode.Touch)
+        {
+            // Touch the left side of the screen to turn left, right side to turn right
+            if (Input.touchCount > 0)
+                return Input.GetTouch(0).position.x < (0.5f * Screen.width) ? -1.0f : 1.0f;
+            else
+                return 0.0f;
+        }
+        else
+        {
+            // Use the orientation of the device as the steering value
+            return accelerometerSensitivity * Input.acceleration.x;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -44,20 +81,22 @@ public class SnakeMovement : MonoBehaviour
             max = false;
         }
         StartCoroutine(RandomTime());
-    }
-    private float GetSteerInput()
-    {       
-       return Input.GetAxis("Horizontal");       
-        
-    }
+    }  
     // Update is called once per frame
     void Update()
     {
         //UpdateRotDirection();
-        Move();
+        if (Game.gameStatus == Game.GameStatus.isPlaying && Game.isMoving)
+        {
+            Move();
+        }       
         if (Input.GetKeyDown(KeyCode.Q))
         {
             AddBodyPart();
+        }
+        if (Game.gameStatus == Game.GameStatus.isPlaying && speed < maxSpeed)
+        {
+            speed += 0.02f * Time.smoothDeltaTime;
         }
     }
     bool max;
@@ -81,9 +120,9 @@ public class SnakeMovement : MonoBehaviour
         }
         BodyParts[0].Translate(BodyParts[0].forward * currentSpeed * Time.smoothDeltaTime,Space.World);
 
-        if (Input.GetAxis(hor) != 0)
+        if (GetSteerInput() != 0)
         {
-            BodyParts[0].Rotate(Vector3.up * rotationSpeed * Time.deltaTime * Input.GetAxis(hor));
+            BodyParts[0].Rotate(Vector3.up * rotationSpeed * Time.deltaTime * GetSteerInput());
         }
 
         //BodyParts[0].Rotate(Vector3.up * rotationSpeed * Time.deltaTime * rotDirection);  
@@ -108,7 +147,7 @@ public class SnakeMovement : MonoBehaviour
         }
     }
     float size = 1;
-     void AddBodyPart()
+    public void AddBodyPart()
     {
         size -= 0.03f;
         Transform newPart=(Instantiate(bodyPrefab,BodyParts[BodyParts.Count-1].position, BodyParts[BodyParts.Count - 1].rotation) as GameObject).transform;
@@ -116,4 +155,5 @@ public class SnakeMovement : MonoBehaviour
         newPart.localScale = new Vector3(size, size, size);
         BodyParts.Add(newPart);
     }
+  
 }

@@ -10,6 +10,7 @@ TagManager:
   - Snake
   - food
   - poison
+  - SnakeBody
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - Player
   - Grapple
   - Snake
-  - 
+  - food
   - 
   - 
   - 

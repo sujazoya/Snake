@@ -11,7 +11,7 @@ public class Game
 	}
 	public static GameStatus gameStatus;
 	public static bool isGameover = false;
-	public static bool isMoving = false;
+	public static bool isMoving = true;
 	public static bool playerIdDead;
     public static string itemTag = "Object";
     public static string powerupTag = "Powerup";
@@ -20,8 +20,14 @@ public class Game
 	public static string coinTag = "Coin";
 	public static string shop = "Shop";
 
+	public static string snakeTag = "Snake";
+	public static string foodTag = "food";
+	public static string poisonTag = "poison";
+	public static string SnakeBody = "SnakeBody";
+
 	public static string levelKey = "levelKey";
 	public static string Menu = "Menu";
+	public static string SettingPanel = "SettingPanel";
 	public static string Level = "Level";
 	public static string HUD = "HUD";
 	public static string Gameover = "Gameover";
@@ -40,6 +46,18 @@ public class Game
 	public static int rifleBulletPrice = 300;
 	public static int lifePrice = 500;
 
+	public static float currentLevelTarget;
+	public static float achivedLevelTarget;
+
+	public static float levelMinTime;
+	public static float levelMaxTime;
+	public static float levelPlayTime;
+
+	public static int GameMode
+	{
+		get { return PlayerPrefs.GetInt("GameMode", 0); }
+		set { PlayerPrefs.SetInt("GameMode", value); }
+	}
 
 	public static int retryCount
 	{
@@ -85,5 +103,25 @@ public class Game
 	{
 		get { return PlayerPrefs.GetInt("RifleBullet", 0); }
 		set { PlayerPrefs.SetInt("RifleBullet", value); }
+	}
+	public static int EasyStars
+	{
+		get { return PlayerPrefs.GetInt("EasyStars", 0); }
+		set { PlayerPrefs.SetInt("EasyStars", value); }
+	}
+	public static int MediuStars
+	{
+		get { return PlayerPrefs.GetInt("MediuStars", 0); }
+		set { PlayerPrefs.SetInt("MediuStars", value); }
+	}
+	public static int HardStars
+	{
+		get { return PlayerPrefs.GetInt("HardStars", 0); }
+		set { PlayerPrefs.SetInt("HardStars", value); }
+	}
+	public static int ExpertStars
+	{
+		get { return PlayerPrefs.GetInt("ExpertStars", 0); }
+		set { PlayerPrefs.SetInt("ExpertStars", value); }
 	}
 }

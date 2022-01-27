@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 4753622628765965228}
   - component: {fileID: 4753622628765965227}
   - component: {fileID: 4753622628765965226}
-  m_Layer: 0
+  - component: {fileID: -4849498385759251259}
+  - component: {fileID: 126791526345873725}
+  m_Layer: 16
   m_Name: red
   m_TagString: poison
   m_Icon: {fileID: 0}
@@ -93,3 +95,34 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &-4849498385759251259
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753622628765965225}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3801fd88debae3b48abfa84a5df9e454, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &126791526345873725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753622628765965225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e1121bd2335a64aad4761194c055c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
